@@ -6,6 +6,8 @@
  */
 package mx.gob.economia.miam.common.foliador.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import mx.gob.economia.miam.common.foliador.model.FoliadoEntity;
 
 /**
@@ -17,6 +19,8 @@ import mx.gob.economia.miam.common.foliador.model.FoliadoEntity;
 public class FoliadoServiceImpl implements FoliadoService {
 
 	private UtileriaFolios utileriaFolios;
+
+	private static final Logger LOGGER = LogManager.getLogger(FoliadoServiceImpl.class);
 
 	/*
 	 * La documentación de este método se encuentra en la clase o interface que lo declara
@@ -56,6 +60,12 @@ public class FoliadoServiceImpl implements FoliadoService {
 		foliador.generaFolio("DCR");
 		foliador.validaExistencia("DCR20180403-00001");
 		foliador.cancelaFolio("DCR20180403-00001");
+		LOGGER.trace("Log level trace");
+		LOGGER.debug("Log level debug");
+		LOGGER.info("Log level info");
+		LOGGER.warn("Log level warn");
+		LOGGER.error("Log level error");
+		LOGGER.fatal("Log level fatal");
 	}
 
 }
