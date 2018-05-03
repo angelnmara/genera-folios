@@ -6,6 +6,8 @@
  */
 package mx.gob.economia.miam.common.foliador.services;
 
+import mx.gob.economia.miam.common.foliador.model.FoliadoEntity;
+
 /**
  * TODO [Agregar documentacion de la clase]
  * @author Omar Rebollo (orebollo@syesoftware.com)
@@ -14,10 +16,10 @@ package mx.gob.economia.miam.common.foliador.services;
  */
 public interface FoliadoService {
 
-	String generaFolio();
+	FoliadoEntity generaFolio(String direccion);
 
-	boolean validaExistencia(String folio);
+	FoliadoEntity validaExistencia(String folio);
 
-	void cancelaFolio(String folio);
+	FoliadoEntity cancelaFolio(String folio);
 
 }

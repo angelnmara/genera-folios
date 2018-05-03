@@ -7,9 +7,12 @@
 package mx.gob.economia.miam.common.foliador.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Formatter;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import mx.gob.economia.miam.common.foliador.model.FoliadoEntity;
 
 /**
  * TODO [Agregar documentacion de la clase]
@@ -19,70 +22,92 @@ import java.util.Random;
  */
 public class UtileriaFolios {
 
-	public static List<String> listaFolios = new ArrayList<String>();
+	FoliadoEntity foliadoEntity = new FoliadoEntity();
 
+	public static List<String> listaDirecciones = new ArrayList<String>();
 	static {
-		listaFolios.add("DM/2018/00001");
-		listaFolios.add("DM/2018/00002");
-		listaFolios.add("DM/2018/00003");
-		listaFolios.add("DM/2018/00004");
-		listaFolios.add("DM/2018/00005");
-		listaFolios.add("DM/2018/00006");
-		listaFolios.add("DM/2018/00007");
-		listaFolios.add("DM/2018/00008");
-		listaFolios.add("DM/2018/00009");
-		listaFolios.add("DM/2018/00010");
-		listaFolios.add("DM/2018/00011");
-		listaFolios.add("DM/2018/00012");
-		listaFolios.add("DM/2018/00013");
-		listaFolios.add("DM/2018/00014");
-		listaFolios.add("DM/2018/00015");
-		listaFolios.add("DM/2018/00017");
-		listaFolios.add("DM/2018/00018");
-		listaFolios.add("DM/2018/00019");
-		listaFolios.add("DM/2018/00020");
-		listaFolios.add("DM/2018/00021");
-		listaFolios.add("DM/2018/00022");
-		listaFolios.add("DM/2018/00023");
-		listaFolios.add("DM/2018/00024");
-		listaFolios.add("DM/2018/00025");
-		listaFolios.add("DM/2018/00026");
-		listaFolios.add("DM/2018/00027");
-		listaFolios.add("DM/2018/00028");
-		listaFolios.add("DM/2018/00029");
-		listaFolios.add("DM/2018/00030");
+		listaDirecciones.add("DGL");
+		listaDirecciones.add("DRP");
+		listaDirecciones.add("DEC");
+		listaDirecciones.add("DCR");
+		listaDirecciones.add("DCO");
 	}
 
-	public String generaFolio() {
-		String direccion = "DM";
-		String anio = "2018";
-		Random random = new Random();
-		int randomInt = random.nextInt(10000);
-		String consecutivo = Integer.toString(randomInt);
-		String folio = direccion.concat("/").concat(anio).concat("/").concat(consecutivo);
+	public static List<FoliadoEntity> listaFolios = new ArrayList<>();
+
+	public FoliadoEntity generaFolio(String direccion) {
+
+		boolean existeDireccion = false;
+
+		for (String validaDireccion : listaDirecciones)
+			if (validaDireccion.equals(direccion))
+				existeDireccion = true;
+
+		if (!existeDireccion) {
+			foliadoEntity.setFcIdFolio("");
+			foliadoEntity.setFnFolioExiste(false);
+			foliadoEntity.setFcFolioError("No existe direccion");
+			System.out.println("No existe direccion");
+			return foliadoEntity;
+		}
+
+		Formatter fmtm = new Formatter();
+		Formatter fmtd = new Formatter();
+		Formatter fmtc = new Formatter();
+		java.util.Date date = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		String anio = String.valueOf(calendar.get(Calendar.YEAR));
+		String mes = String.valueOf(fmtm.format("%02d", calendar.get(Calendar.MONTH)));
+		String dia = String.valueOf(fmtd.format("%02d", calendar.get(Calendar.DAY_OF_MONTH)));
+		String consecutivo = String.valueOf(fmtc.format("%05d", listaFolios.size() + 1));
+		String folio =
+			direccion.concat(anio).concat(mes).concat(dia).concat("-").concat(consecutivo);
+		foliadoEntity.setFcIdFolio(folio);
+		foliadoEntity.setFnFolioExiste(true);
+		foliadoEntity.setFcFolioError("");
+		listaFolios.add(foliadoEntity);
 		System.out.println("folio: " + folio);
-		return folio;
+		return foliadoEntity;
+
 	}
 
-	public boolean validaExistencia(String folioEnviado) {
+	public FoliadoEntity validaExistencia(String folioEnviado) {
+
+		foliadoEntity.setFcIdFolio(folioEnviado);
+		foliadoEntity.setFcFolioError("");
+
 		if (folioEnviado != null && !folioEnviado.equals(""))
-			for (String folio : listaFolios)
-				if (folio.equals(folioEnviado)) {
+			for (FoliadoEntity folio : listaFolios)
+				if (folio.getFcIdFolio().equals(folioEnviado)) {
+					foliadoEntity.setFnFolioExiste(true);
 					System.out.println("Existe Folio");
-					return true;
+					return foliadoEntity;
 				}
-		return false;
+
+		foliadoEntity.setFnFolioExiste(false);
+		System.out.println("No existe Folio");
+		return foliadoEntity;
 	}
 
-	public void cancelaFolio(String folioEnviado) {
-		Iterator<String> iterator = listaFolios.iterator();
+	public FoliadoEntity cancelaFolio(String folioEnviado) {
+
+		foliadoEntity.setFcIdFolio(folioEnviado);
+		foliadoEntity.setFcFolioError("");
+
+		Iterator<FoliadoEntity> iterator = listaFolios.iterator();
 		while(iterator.hasNext()) {
-			String folio = iterator.next();
+			String folio = iterator.next().getFcIdFolio();
 			if (folio.equals(folioEnviado)) {
-				System.out.println("Cancela Folio");
-				iterator.remove();
+				foliadoEntity.setFnFolioExiste(false);
+				System.out.println("folio cancelado");
+				// iterator.remove();
+				return foliadoEntity;
 			}
 		}
+		System.out.println("No se encontro folio a cancelar");
+		foliadoEntity.setFnFolioExiste(true);
+		foliadoEntity.setFcFolioError("No se encontro folio a cancelar");
+		return foliadoEntity;
 	}
-
 }

@@ -6,6 +6,8 @@
  */
 package mx.gob.economia.miam.common.foliador.services;
 
+import mx.gob.economia.miam.common.foliador.model.FoliadoEntity;
+
 /**
  * TODO [Agregar documentacion de la clase]
  * @author Omar Rebollo (orebollo@syesoftware.com)
@@ -22,9 +24,9 @@ public class FoliadoServiceImpl implements FoliadoService {
 	 * @see mx.gob.economia.miam.common.foliador.Foliado#generaFolio()
 	 */
 	@Override
-	public String generaFolio() {
+	public FoliadoEntity generaFolio(String direccion) {
 		utileriaFolios = new UtileriaFolios();
-		return utileriaFolios.generaFolio();
+		return utileriaFolios.generaFolio(direccion);
 	}
 
 	/*
@@ -33,7 +35,7 @@ public class FoliadoServiceImpl implements FoliadoService {
 	 * @see mx.gob.economia.miam.common.foliador.Foliado#validaExistencia(java.lang.String)
 	 */
 	@Override
-	public boolean validaExistencia(String folio) {
+	public FoliadoEntity validaExistencia(String folio) {
 		utileriaFolios = new UtileriaFolios();
 		return utileriaFolios.validaExistencia(folio);
 	}
@@ -44,20 +46,16 @@ public class FoliadoServiceImpl implements FoliadoService {
 	 * @see mx.gob.economia.miam.common.foliador.Foliado#cancelaFolio(java.lang.String)
 	 */
 	@Override
-	public void cancelaFolio(String folio) {
+	public FoliadoEntity cancelaFolio(String folio) {
 		utileriaFolios = new UtileriaFolios();
-		utileriaFolios.cancelaFolio(folio);
+		return utileriaFolios.cancelaFolio(folio);
 	}
 
 	public static void main(String[] args) {
 		FoliadoServiceImpl foliador = new FoliadoServiceImpl();
-		foliador.generaFolio();
-		foliador.validaExistencia("DM/2018/00005");
-		foliador.cancelaFolio("DM/2018/00005");
-		
-		
-		
-		
+		foliador.generaFolio("DCR");
+		foliador.validaExistencia("DCR20180403-00001");
+		foliador.cancelaFolio("DCR20180403-00001");
 	}
 
 }

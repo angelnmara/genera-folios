@@ -1,39 +1,39 @@
 package mx.gob.economia.miam.common.foliador.model;
 
 public class FoliadoEntity extends AbstractEntity {
-	
-	/*	lista de campos de foliado	*/
-	
-	private String fiIdFolio;
-	private String fcFolioDireccion; 
-	private String fcFolioOficina;
-	private String fcFolioConsecutivo;
-	
-	/*	generacion de geters and seters*/
-	
-	public String getFiIdFolio() {
-		return fiIdFolio;
+
+	/* lista de campos de foliado */
+
+	private String fcIdFolio;
+
+	private boolean fnFolioExiste;
+
+	private String fcFolioError;
+
+	/* generacion de geters and seters */
+
+	public boolean isFnFolioExiste() {
+		return fnFolioExiste;
 	}
-	public void setFiIdFolio(String fiIdFolio) {
-		this.fiIdFolio = fiIdFolio;
+
+	public String getFcFolioError() {
+		return fcFolioError;
 	}
-	public String getFcFolioDireccion() {
-		return fcFolioDireccion;
+
+	public void setFcFolioError(String fcFolioError) {
+		this.fcFolioError = fcFolioError;
 	}
-	public void setFcFolioDireccion(String fcFolioDireccion) {
-		this.fcFolioDireccion = fcFolioDireccion;
+
+	public void setFnFolioExiste(boolean fnFolioExiste) {
+		this.fnFolioExiste = fnFolioExiste;
 	}
-	public String getFcFolioOficina() {
-		return fcFolioOficina;
+
+	public String getFcIdFolio() {
+		return fcIdFolio;
 	}
-	public void setFcFolioOficina(String fcFolioOficina) {
-		this.fcFolioOficina = fcFolioOficina;
+
+	public void setFcIdFolio(String fcIdFolio) {
+		this.fcIdFolio = fcIdFolio;
 	}
-	public String getFcFolioConsecutivo() {
-		return fcFolioConsecutivo;
-	}
-	public void setFcFolioConsecutivo(String fcFolioConsecutivo) {
-		this.fcFolioConsecutivo = fcFolioConsecutivo;
-	}
-	
+
 }
